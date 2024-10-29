@@ -18,8 +18,7 @@ import {
   IconButton,
   Text
 } from 'react-native-paper';
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';  // If using Expo
-// Or import { Icon } from 'react-native-paper'; // If not using Expo
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'; 
 import { getProducts } from '../services/api';
 import { Product } from '../types';
 const ProductList: React.FC = () => {

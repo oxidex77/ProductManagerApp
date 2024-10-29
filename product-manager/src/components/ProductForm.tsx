@@ -17,7 +17,7 @@ import { GestureResponderEvent } from 'react-native';
 
 interface ProductFormProps {
   onSuccess: () => void;
-  onProductAdded: () => void; // Add this new prop
+  onProductAdded: () => void; 
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ onSuccess, onProductAdded = () => {} }) => {
@@ -47,7 +47,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSuccess, onProductAdded = (
             setSuccessDialogVisible(true);
             resetForm();
             onSuccess();
-            onProductAdded(); // Trigger refresh in parent component here
+            onProductAdded(); 
         } catch (err) {
             console.error(err);
         } finally {
@@ -155,8 +155,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSuccess, onProductAdded = (
 <Button
       mode="contained"
       onPress={async (event: GestureResponderEvent) => {
-        await handleSubmit(); // Ensure this calls the submit function
-        onProductAdded(); // Call the additional function after successful submission
+        await handleSubmit();
+        onProductAdded();
       }}
       loading={isSubmitting}
       disabled={isSubmitting}
