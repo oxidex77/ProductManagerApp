@@ -18,9 +18,10 @@ import {
   IconButton,
   Text
 } from 'react-native-paper';
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { getProducts } from '../services/api';
 import { Product } from '../types';
+import { useFocusEffect } from '@react-navigation/native';
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,6 +30,7 @@ const ProductList: React.FC = () => {
 
   const loadProducts = async () => {
     try {
+      setRefreshing(true);
       const data = await getProducts();
       setProducts(data);
     } catch (error) {
@@ -39,22 +41,23 @@ const ProductList: React.FC = () => {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      loadProducts();
+    }, [])
+  );
 
   const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
     loadProducts();
   }, []);
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-  const renderProducts = (item: Product) => {
-    const price = typeof item.price === 'number' ? 
-      `$${item.price.toFixed(2)}` : 
-      "$0.00";
-    return price;
-  };
-
+  // const renderProducts = (item: Product) => {
+  //   const price = typeof item.price === 'number' ? 
+  //     `$${item.price.toFixed(2)}` : 
+  //     "$0.00";
+  //   return price;
+  // };
+ 
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);

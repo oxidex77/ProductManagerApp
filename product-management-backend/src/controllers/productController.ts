@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { pool } from '../config/database';
-import { Product } from '../types/product';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const [rows] = await pool.execute<RowDataPacket[]>('SELECT * FROM products ORDER BY created_at DESC');
+    console.log(rows);
     res.json(rows);
   } catch (error) {
     console.error('Error fetching products:', error);

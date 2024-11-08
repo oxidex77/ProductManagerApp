@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { 
-  TextInput, 
-  Button, 
-  HelperText, 
-  Surface, 
-  Portal, 
-  Dialog, 
-  Avatar, 
-  useTheme 
+import {
+  TextInput,
+  Button,
+  HelperText,
+  Surface,
+  Portal,
+  Dialog,
+  Avatar,
+  useTheme
 } from 'react-native-paper';
 import { Formik } from 'formik';
 import { productValidationSchema } from '../types/validation';
-import { addProduct } from '../services/api'; 
+import { addProduct } from '../services/api';
 import { GestureResponderEvent } from 'react-native';
 
 interface ProductFormProps {
   onSuccess: () => void;
-  onProductAdded: () => void; 
+  onProductAdded: () => void;
 }
 
-const ProductForm: React.FC<ProductFormProps> = ({ onSuccess, onProductAdded = () => {} }) => {
+const ProductForm: React.FC<ProductFormProps> = ({ onSuccess, onProductAdded = () => { } }) => {
   const [successDialogVisible, setSuccessDialogVisible] = useState(false);
   const theme = useTheme();
 
@@ -39,33 +39,33 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSuccess, onProductAdded = (
       validationSchema={productValidationSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
-            await addProduct({
-                ...values,
-                warranty_period: parseInt(values.warranty_period),
-                price: parseFloat(values.price),
-            });
-            setSuccessDialogVisible(true);
-            resetForm();
-            onSuccess();
-            onProductAdded(); 
+          await addProduct({
+            ...values,
+            warranty_period: parseInt(values.warranty_period),
+            price: parseFloat(values.price),
+          });
+          setSuccessDialogVisible(true);
+          resetForm();
+          onSuccess();
+          onProductAdded();
         } catch (err) {
-            console.error(err);
+          console.error(err);
         } finally {
-            setSubmitting(false);
+          setSubmitting(false);
         }
-    }}
-    
+      }}
+
     >
       {({ handleChange, handleSubmit, values, errors, touched, isSubmitting }) => (
         <ScrollView style={styles.container}>
           <Surface style={styles.formContainer}>
-            <Avatar.Icon 
-              size={80} 
-              icon="package-variant" 
+            <Avatar.Icon
+              size={80}
+              icon="package-variant"
               style={styles.icon}
               color={theme.colors.primary}
             />
-            
+
             <TextInput
               label="Product Name"
               value={values.name}
@@ -152,19 +152,19 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSuccess, onProductAdded = (
               <HelperText type="error">{errors.price}</HelperText>
             )}
 
-<Button
-      mode="contained"
-      onPress={async (event: GestureResponderEvent) => {
-        await handleSubmit();
-        onProductAdded();
-      }}
-      loading={isSubmitting}
-      disabled={isSubmitting}
-      style={styles.button}
-      icon="content-save"
-    >
-      Save Product
-    </Button>
+            <Button
+              mode="contained"
+              onPress={async (event: GestureResponderEvent) => {
+                await handleSubmit();
+                onProductAdded();
+              }}
+              loading={isSubmitting}
+              disabled={isSubmitting}
+              style={styles.button}
+              icon="content-save"
+            >
+              Save Product
+            </Button>
           </Surface>
 
           <Portal>
@@ -174,7 +174,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSuccess, onProductAdded = (
             >
               <Dialog.Title>Success</Dialog.Title>
               <Dialog.Content>
-                <HelperText>Product saved successfully!</HelperText>
+                <HelperText type='info'>Product saved successfully!</HelperText>
               </Dialog.Content>
               <Dialog.Actions>
                 <Button onPress={() => setSuccessDialogVisible(false)}>OK</Button>

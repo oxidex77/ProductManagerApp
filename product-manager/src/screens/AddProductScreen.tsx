@@ -17,7 +17,7 @@ interface AddProductScreenProps {
 const AddProductScreen: React.FC<AddProductScreenProps> = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
-      <ProductForm onSuccess={() => navigation.goBack()} />
+      <ProductForm onSuccess={() => navigation.goBack()} onProductAdded={() => {}} />
     </ScrollView>
   );
 };
